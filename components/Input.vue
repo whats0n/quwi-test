@@ -36,12 +36,14 @@ export default {
 
 <style lang="sass">
 .input
+  box-sizing: border-box
   outline: none
   padding: 0 15px
   border: 1px solid #333
   border-radius: 3px
   width: 100%
   height: 40px
+  font-size: 16px
   line-height: normal
   transition: border-color 0.25s, box-shadow 0.25s
   &:focus

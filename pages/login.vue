@@ -40,7 +40,7 @@
       :message="errorMessage"
     />
     <Button type="submit">
-      Submit
+      Sign In
     </Button>
   </form>
 </template>
@@ -72,7 +72,8 @@ export default {
       valid: true,
       value: '',
       name: 'password'
-    }
+    },
+    response: null
   }),
   methods: {
     handleFocus(field) {
@@ -101,6 +102,10 @@ export default {
         password: this.password.value
       })
         .then(({ data }) => {
+          this.response = data
+          if (process.client) {
+            window.localStorage.setItem('token', data.token)
+          }
           window.location.href = window.location.origin
         })
         .catch(({ response }) => {

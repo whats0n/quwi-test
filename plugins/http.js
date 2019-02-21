@@ -1,6 +1,19 @@
 import axios from 'axios'
 import config from '~/plugins/config.js'
 
-export default axios.create({
-  baseURL: config.baseApiURL
-})
+const { token, baseApiURL } = config
+
+export default (() => {
+  if (token) {
+    return axios.create({
+      baseURL: baseApiURL,
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
+  } else {
+    return axios.create({
+      baseURL: baseApiURL
+    })
+  }
+})()
