@@ -11,7 +11,7 @@
       label="Email:"
       class="form__field"
     >
-      <input
+      <Input
         v-model="email.value"
         type="text"
         placeholder="Enter your e-mail address"
@@ -19,13 +19,13 @@
         :class="{ 'is-error': !email.valid }"
         @focus="handleFocus(email.name)"
         @blur="handleBlur(email.name)"
-      >
+      />
     </Field>
     <Field
       label="Password:"
       class="form__field"
     >
-      <input
+      <Input
         v-model="password.value"
         type="password"
         placeholder="Enter your password"
@@ -33,18 +33,15 @@
         :class="{ 'is-error': !password.valid }"
         @focus="handleFocus(password.name)"
         @blur="handleBlur(password.name)"
-      >
+      />
     </Field>
     <ErrorMessage
       class="form__error-message"
       :message="errorMessage"
     />
-    <button
-      type="submit"
-      class="btn"
-    >
+    <Button type="submit">
       Submit
-    </button>
+    </Button>
   </form>
 </template>
 
@@ -54,11 +51,15 @@ import isEmailValid from '~/plugins/isEmailValid'
 import isPasswordValid from '~/plugins/isPasswordValid'
 import Field from '~/components/Field'
 import ErrorMessage from '~/components/ErrorMessage'
+import Button from '~/components/Button'
+import Input from '~/components/Input'
 
 export default {
   components: {
     Field,
-    ErrorMessage
+    ErrorMessage,
+    Button,
+    Input
   },
   data: () => ({
     errorMessage: null,
@@ -155,29 +156,4 @@ body
   &__error-message
     &:not(:last-child)
       margin-bottom: 20px
-
-
-.input
-  outline: none
-  padding: 0 15px
-  border: 1px solid #333
-  border-radius: 3px
-  width: 100%
-  height: 40px
-  line-height: normal
-  transition: border-color 0.25s, box-shadow 0.25s
-  &:focus
-    box-shadow: 0 0 2px 2px rgba(#333, 0.1)
-  &.is-error
-    border-color: red
-
-.btn
-  padding: 12px 24px
-  border: none
-  border-radius: 3px
-  background: #d9d9d9
-  cursor: pointer
-  &:active
-    background: darken(#d9d9d9, 10%)
-
 </style>
