@@ -1,13 +1,6 @@
 <template>
   <div class="container">
-    <div class="header">
-      <Button
-        class="header__logout"
-        @click.prevent="handleLogout"
-      >
-        Logout
-      </Button>
-    </div>
+    <Header />
     <div
       v-if="hadProjects"
       class="projects"
@@ -16,7 +9,8 @@
         v-for="project in filteredProjects"
         :ref="project.id"
         :key="project.id"
-        :url="project.url"
+        :url-get="project.urlGet"
+        :url-update="project.urlUpdate"
       >
         <template
           v-if="data"
@@ -30,7 +24,7 @@
             :time-week="data.project.spent_time_week"
             :time-month="data.project.spent_time_month"
             :time-total="data.project.spent_time_all"
-            @submit="handleProjectSubmit($event, project.id, update)"
+            @submit="update"
           />
         </template>
       </WithData>
@@ -41,17 +35,16 @@
 
 <script>
 import HTTP from '~/plugins/http'
-import logout from '~/plugins/logout'
 import config from '~/plugins/config'
 import WithData from '~/components/WithData'
 import Project from '~/components/Project'
-import Button from '~/components/Button'
+import Header from '~/components/Header'
 
 export default {
   components: {
     Project,
     WithData,
-    Button
+    Header
   },
   data: () => ({
     projects: null,
@@ -62,7 +55,8 @@ export default {
       return (
         this.projects &&
         this.projects.map(item => {
-          item.url = `projects-manage/${item.id}`
+          item.urlGet = `projects-manage/${item.id}`
+          item.urlUpdate = `projects-manage/update?id=${item.id}`
           return item
         })
       )
@@ -77,31 +71,11 @@ export default {
         this.projects = data.projects
       })
     })
-  },
-  methods: {
-    handleProjectSubmit(name, id, update) {
-      HTTP.post(`projects-manage/update?id=${id}`, {
-        name
-      }).then(({ data }) => {
-        update(data)
-      })
-    },
-    handleLogout: logout
   }
 }
 </script>
 
 <style lang="sass">
-
-.header 
-  padding: 16px 20px
-  background: #f1f1f1
-  &:after
-    content: ''
-    display: block
-    clear: both
-  &__logout
-    float: right
 
 .projects
   padding: 20px

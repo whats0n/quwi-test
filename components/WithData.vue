@@ -11,7 +11,11 @@ export default {
   name: 'WithData',
   components: {},
   props: {
-    url: {
+    urlGet: {
+      type: String,
+      required: true
+    },
+    urlUpdate: {
       type: String,
       required: true
     }
@@ -24,12 +28,16 @@ export default {
   },
   methods: {
     getData() {
-      HTTP.get(this.url).then(({ data }) => {
+      HTTP.get(this.urlGet).then(({ data }) => {
         this.fetchedData = data
       })
     },
-    updateData(data) {
-      this.fetchedData = data
+    updateData(name) {
+      HTTP.post(this.urlUpdate, {
+        name
+      }).then(({ data }) => {
+        this.fetchedData = data
+      })
     }
   }
 }

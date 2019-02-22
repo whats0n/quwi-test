@@ -15,5 +15,12 @@ export default {
         window.location.href = '/login'
       }
     }
+  },
+  isAuthorized(callback) {
+    if (process.client) {
+      if (window.localStorage.getItem('token')) {
+        callback()
+      }
+    }
   }
 }

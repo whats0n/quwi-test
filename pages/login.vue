@@ -53,6 +53,7 @@ import Field from '~/components/Field'
 import ErrorMessage from '~/components/ErrorMessage'
 import Button from '~/components/Button'
 import Input from '~/components/Input'
+import config from '~/plugins/config'
 
 export default {
   components: {
@@ -75,6 +76,13 @@ export default {
     },
     response: null
   }),
+  created() {
+    config.isAuthorized(() => {
+      if (process.client) {
+        window.location.href = window.location.origin
+      }
+    })
+  },
   methods: {
     handleFocus(field) {
       this[field].valid = true
