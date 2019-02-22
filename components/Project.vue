@@ -55,6 +55,12 @@
       </ul>
     </div>
     <div class="project__container">
+      <button
+        class="project__close"
+        @click.prevent="handleClose"
+      >
+        <span class="project__close-in" />
+      </button>
       <form
         action="POST"
         class="project__form"
@@ -140,13 +146,6 @@ export default {
       return this.status ? 'Active' : 'Not active'
     }
   },
-  watch: {
-    title(newValue, oldValue) {
-      if (newValue !== oldValue) {
-        this.isEdit = false
-      }
-    }
-  },
   methods: {
     getFormattedTime(duration) {
       let seconds = parseInt((duration / 1000) % 60)
@@ -167,7 +166,16 @@ export default {
       }, 100)
     },
     handleSubmit() {
-      this.$emit('submit', this.newTitle)
+      this.$emit('submit', {
+        data: { name: this.newTitle },
+        callback: this.close
+      })
+    },
+    handleClose() {
+      this.close()
+    },
+    close() {
+      this.isEdit = false
     }
   }
 }
@@ -176,63 +184,97 @@ export default {
 <style lang="sass">
 
 .project
-	position: relative
-	cursor: pointer
-	&.is-active
-		.project
-			&__container
-				opacity: 1
-				visibility: visible
-	&__container
-		position: absolute
-		top: 0
-		left: 0
-		right: 0
-		bottom: 0
-		padding: 20px
-		opacity: 0
-		visibility: hidden
-		background: #fff
-		transition: opacity 0.25s, visibility 0.25s
-	&__content
-		display: flex
-		align-items: center
-		justify-content: space-between
-		padding: 20px
-		background: #fff
-		box-shadow: 0 0 2px 1px rgba(#000, 0.2)
-	&__icon
-		flex: 0 0 50px
-		font-size: 0
-		text-align: center
-	&__icon-img
-		max-width: 50px
-	&__schedule
-		flex: 0 0 180px
-		padding: 0
-		margin: 0
-	&__schedule,
-	&__schedule-item
-		list-style-type: none
-	&__schedule-item
-		display: flex
-		align-items: flex-start
-		justify-content: space-between
-	&__schedule-value,
-	&__status,
-	&__title
-		font-weight: 700
-	&__status
-		color: red
-		&.is-active
-			color: green
-	&__form
-		display: flex
-		align-items: flex-end
-	&__field
-		flex: 1 1 auto
-	&__btn
-		flex: 0 0 auto
-		margin-left: 20px
+  position: relative
+  cursor: pointer
+  &.is-active
+    .project
+      &__container
+        opacity: 1
+        visibility: visible
+  &__container
+    position: absolute
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    padding: 20px
+    opacity: 0
+    visibility: hidden
+    background: #fff
+    transition: opacity 0.25s, visibility 0.25s
+  &__content
+    display: flex
+    align-items: center
+    justify-content: space-between
+    padding: 20px
+    background: #fff
+    box-shadow: 0 0 2px 1px rgba(#000, 0.2)
+  &__icon
+    flex: 0 0 50px
+    font-size: 0
+    text-align: center
+  &__icon-img
+    max-width: 50px
+  &__schedule
+    flex: 0 0 180px
+    padding: 0
+    margin: 0
+  &__schedule,
+  &__schedule-item
+    list-style-type: none
+  &__schedule-item
+    display: flex
+    align-items: flex-start
+    justify-content: space-between
+  &__schedule-value,
+  &__status,
+  &__title
+    font-weight: 700
+  &__status
+    color: red
+    &.is-active
+      color: green
+  &__form
+    display: flex
+    align-items: flex-end
+  &__field
+    flex: 1 1 auto
+  &__btn
+    flex: 0 0 auto
+    margin-left: 20px
+  &__close
+    position: absolute
+    top: 0
+    right: 0
+    outline: none
+    padding: 0
+    border: 0
+    width: 40px
+    height: 40px
+    background: none
+    cursor: pointer
+    &-in
+      position: absolute
+      top: 10px
+      left: 10px
+      right: 10px
+      bottom: 10px
+      transform: rotate(45deg)
+      &:before,
+      &:after
+        content: ''
+        position: absolute
+      &:before
+        top: 0
+        left: 50%
+        bottom: 0
+        margin-left: -1px
+        border-left: 2px solid #333
+      &:after
+        top: 50%
+        left: 0
+        right: 0
+        margin-top: -1px
+        border-top: 2px solid #333
 
 </style>

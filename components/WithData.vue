@@ -32,11 +32,10 @@ export default {
         this.fetchedData = data
       })
     },
-    updateData(name) {
-      HTTP.post(this.urlUpdate, {
-        name
-      }).then(({ data }) => {
+    updateData({ data, callback }) {
+      HTTP.post(this.urlUpdate, data).then(({ data }) => {
         this.fetchedData = data
+        callback && callback()
       })
     }
   }
